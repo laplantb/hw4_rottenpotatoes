@@ -3,7 +3,9 @@ class Movie < ActiveRecord::Base
     %w(G PG PG-13 NC-17 R)
   end
 
-  def self.similar( id, director )
-     where "id <> '#{id}' AND director = '#{director}'"
+  def self.similar( id )
+     movie = find(id)
+     raise ArgumentError,"'#{movie.title}' has no director info"  if movie.director.empty? 
+     where "id <> #{id} AND director = '#{movie.director}'" 
   end
 end
